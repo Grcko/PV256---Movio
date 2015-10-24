@@ -1,18 +1,15 @@
 package cz.muni.fi.pv256.movio.uco396100.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
@@ -51,16 +48,12 @@ public class FilmAdapter extends BaseAdapter {
         return 1;
     }
 
-    private static class ViewHolder {
-        ImageView view;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            Log.i("OLIVER","inflate radku "+ position);
+            Log.i("OLIVER", "inflate radku " + position);
         } else {
-            Log.i("OLIVER","recyklace radku "+ position);
+            Log.i("OLIVER", "recyklace radku " + position);
         }
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,8 +63,12 @@ public class FilmAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        ImageLoader.getInstance().displayImage(mData.get(position).getCoverPath(), holder.view);
+        Picasso.with(mContext).load(mData.get(position).getCoverPath()).into(holder.view);
         return convertView;
+    }
+
+    private static class ViewHolder {
+        ImageView view;
     }
 
 }
