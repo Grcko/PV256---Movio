@@ -1,10 +1,14 @@
 package cz.muni.fi.pv256.movio.uco396100.adapter;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
@@ -13,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
+import cz.muni.fi.pv256.movio.uco396100.fragment.FilmDetailFragment;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
 
 /**
@@ -57,7 +62,7 @@ public class FilmAdapter extends BaseAdapter {
         }
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.film_item, parent, false);
+            convertView = inflater.inflate(R.layout.item_film, parent, false);
             ViewHolder holder = new ViewHolder();
             holder.view = (ImageView) convertView.findViewById(R.id.list_item);
             convertView.setTag(holder);
@@ -66,6 +71,8 @@ public class FilmAdapter extends BaseAdapter {
         Picasso.with(mContext).load(mData.get(position).getCoverPath()).into(holder.view);
         return convertView;
     }
+
+
 
     private static class ViewHolder {
         ImageView view;

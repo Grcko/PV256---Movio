@@ -1,9 +1,12 @@
 package cz.muni.fi.pv256.movio.uco396100.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by oliver on 17.10.2015.
  */
-public class Film {
+public class Film implements Parcelable {
     private long mReleaseDate;
     private String mCoverPath;
     private String mTitle;
@@ -37,4 +40,18 @@ public class Film {
     public void setTitle(String title) {
         this.mTitle = title;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {String.valueOf(this.mReleaseDate),
+                                            this.mCoverPath,
+                                            this.mTitle});
+    }
+
+
 }
