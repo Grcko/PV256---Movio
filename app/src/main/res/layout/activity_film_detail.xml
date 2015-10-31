@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
@@ -5,13 +6,13 @@
               android:orientation="vertical"
               android:background="?attr/colorAccent"
               tools:context=".MainActivity"
-              >
+    >
 
     <fragment
         android:id="@+id/fragment"
-        android:name="cz.muni.fi.pv256.movio.uco396100.fragment.FilmListFragment"
+        android:name="cz.muni.fi.pv256.movio.uco396100.fragment.FilmDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout ="@layout/fragment_film_list" />
+        tools:layout="@layout/fragment_film_detail"/>
 
 </LinearLayout>

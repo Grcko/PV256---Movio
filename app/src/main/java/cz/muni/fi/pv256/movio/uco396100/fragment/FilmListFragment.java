@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
+import cz.muni.fi.pv256.movio.uco396100.activity.FilmDetailActivity;
 import cz.muni.fi.pv256.movio.uco396100.adapter.FilmAdapter;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
 
@@ -116,15 +118,24 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         return true;
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i("Oliver", "film item click");
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("film", (Film) this.mGridView.getItemAtPosition(position));
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_place, new FilmDetailFragment()).addToBackStack(null);
-        fragmentTransaction.commit();
+        final Film selected = (Film) this.mGridView.getItemAtPosition(position);
+        boolean isTablet = getActivity().findViewById(R.id.fragment2) != null;
+        if (isTablet) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("film", selected);
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment, new FilmDetailFragment());
+            fragmentTransaction.commit();
+        } else {
+            Intent intent = new Intent(getActivity(), FilmDetailActivity.class);
+            intent.putExtra("film", selected);
+            startActivity(intent);
+        }
+
     }
+
 }

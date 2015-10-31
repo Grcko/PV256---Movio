@@ -20,6 +20,8 @@ import cz.muni.fi.pv256.movio.uco396100.model.Film;
  */
 public class FilmDetailFragment extends Fragment {
 
+    private Film mFilm;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +44,22 @@ public class FilmDetailFragment extends Fragment {
             }
         }
 
+        if (mFilm != null) {
+            TextView title = (TextView) fragmentView.findViewById(R.id.title);
+            title.setText(mFilm.getTitle());
+
+            ImageView cover = (ImageView) fragmentView.findViewById(R.id.cover);
+            Picasso.with(getActivity()).load(mFilm.getCoverPath()).into(cover);
+        }
+
         return fragmentView;
     }
 
+    public Film getFilm() {
+        return mFilm;
+    }
 
+    public void setFilm(Film film) {
+        this.mFilm = film;
+    }
 }

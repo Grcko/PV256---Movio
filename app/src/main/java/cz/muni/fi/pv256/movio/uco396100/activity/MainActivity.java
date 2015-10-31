@@ -18,27 +18,10 @@ import cz.muni.fi.pv256.movio.uco396100.model.Film;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean mIsTablet;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_layout);
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_place, new FilmListFragment());
-        fragmentTransaction.commit();
-
-        mIsTablet = getResources().getBoolean(R.bool.has_two_panes);
-        if (mIsTablet) {
-            Log.i("Oliver", "tablet!");
-//            fragmentTransaction.replace()
-        } else {
-            Log.i("Oliver", "smartphone!");
-        }
-
+        setContentView(R.layout.activity_main);
     }
 
 
@@ -62,14 +45,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0)
-            getFragmentManager().popBackStack();
-        else
-            super.onBackPressed();
     }
 
 }

@@ -53,5 +53,22 @@ public class Film implements Parcelable {
                                             this.mTitle});
     }
 
+    public Film(Parcel in){
+        String[] data = new String[3];
 
+        in.readStringArray(data);
+        this.mReleaseDate = Long.parseLong(data[0]);
+        this.mCoverPath = data[1];
+        this.mTitle = data[2];
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Film createFromParcel(Parcel in) {
+            return new Film(in);
+        }
+
+        public Film[] newArray(int size) {
+            return new Film[size];
+        }
+    };
 }
