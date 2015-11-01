@@ -46,7 +46,7 @@ public class FilmAdapter extends BaseAdapter implements StickyGridHeadersBaseAda
         if (isInFirstSection(i)) {
             return mDataFirst.get(i);
         }
-        return mDataSecond.get(i-mDataFirst.size());
+        return mDataSecond.get(i - mDataFirst.size());
     }
 
     @Override
@@ -98,11 +98,11 @@ public class FilmAdapter extends BaseAdapter implements StickyGridHeadersBaseAda
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.item_header, parent, false);
             holder = new HeaderViewHolder();
-            holder.textView = (TextView)convertView.findViewById(R.id.header);
+            holder.textView = (TextView) convertView.findViewById(R.id.header);
             convertView.setTag(holder);
         } else {
             Log.i("OLIVER", "recyklace nadpisu " + position);
-            holder = (HeaderViewHolder)convertView.getTag();
+            holder = (HeaderViewHolder) convertView.getTag();
         }
 
         String header;
@@ -111,18 +111,18 @@ public class FilmAdapter extends BaseAdapter implements StickyGridHeadersBaseAda
         } else {
             header = mContext.getResources().getString(R.string.theatres_header);
         }
-        // set header text as first char in string
+
         holder.textView.setText(header);
 
         return convertView;
     }
 
-    protected class HeaderViewHolder {
-        TextView textView;
-    }
-
     private static class ViewHolder {
         ImageView view;
+    }
+
+    protected class HeaderViewHolder {
+        TextView textView;
     }
 
 }

@@ -42,6 +42,15 @@ public class Film implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "Film{" +
+                "mReleaseDate=" + mReleaseDate +
+                ", mCoverPath='" + mCoverPath + '\'' +
+                ", mTitle='" + mTitle + '\'' +
+                '}';
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

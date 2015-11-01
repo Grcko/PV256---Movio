@@ -34,6 +34,7 @@ public class FilmDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mFilm = getArguments().getParcelable(ARG_SELECTED_FILM);
+            Log.i("oliver", mFilm.toString());
         }
     }
 
@@ -45,6 +46,7 @@ public class FilmDetailFragment extends Fragment {
                 R.layout.fragment_film_detail, container, false);
         if (savedInstanceState != null) {
             Film film = savedInstanceState.getParcelable("film");
+            Log.i("oliver", film.toString());
             if (film != null) {
                 TextView title = (TextView) fragmentView.findViewById(R.id.title);
                 title.setText(film.getTitle());
@@ -64,11 +66,4 @@ public class FilmDetailFragment extends Fragment {
         return fragmentView;
     }
 
-    public Film getFilm() {
-        return mFilm;
-    }
-
-    public void setFilm(Film film) {
-        this.mFilm = film;
-    }
 }
