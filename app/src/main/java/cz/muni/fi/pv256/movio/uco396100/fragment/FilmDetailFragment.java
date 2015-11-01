@@ -20,12 +20,21 @@ import cz.muni.fi.pv256.movio.uco396100.model.Film;
  */
 public class FilmDetailFragment extends Fragment {
 
+    public static final String ARG_SELECTED_FILM = "film";
+
     private Film mFilm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Oliver", "Film detail fragment onCreate()");
+
+        if (getArguments().containsKey(ARG_SELECTED_FILM)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            mFilm = getArguments().getParcelable(ARG_SELECTED_FILM);
+        }
     }
 
     @Nullable

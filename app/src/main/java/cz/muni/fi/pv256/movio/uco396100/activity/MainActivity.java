@@ -1,14 +1,10 @@
 package cz.muni.fi.pv256.movio.uco396100.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
 import cz.muni.fi.pv256.movio.uco396100.fragment.FilmDetailFragment;
@@ -16,12 +12,16 @@ import cz.muni.fi.pv256.movio.uco396100.fragment.FilmListFragment;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FilmListFragment.Callbacks {
+
+    private boolean mIsTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mIsTablet = findViewById(R.id.fragment2) != null;
     }
 
 
@@ -47,4 +47,26 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(Film film) {
+        if (mIsTablet) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(FilmDetailFragment.ARG_SELECTED_FILM, film);
+            FilmDetailFragment fragment = new FilmDetailFragment();
+            fragment.setArguments(arguments);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment2, fragment)
+                    .commit();
+
+        } else {
+            // In single-pane mode, simply start the detail activity
+            // for the selected item ID.
+            Intent detailIntent = new Intent(this, FilmDetailActivity.class);
+            detailIntent.putExtra(FilmDetailFragment.ARG_SELECTED_FILM, film);
+            startActivity(detailIntent);
+        }
+    }
 }

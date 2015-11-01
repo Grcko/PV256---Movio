@@ -1,10 +1,9 @@
 package cz.muni.fi.pv256.movio.uco396100.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
-import cz.muni.fi.pv256.movio.uco396100.activity.FilmDetailActivity;
 import cz.muni.fi.pv256.movio.uco396100.adapter.FilmAdapter;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
 
@@ -69,6 +68,7 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
     }
 
     private GridView mGridView;
+    private Callbacks mCallbacks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,22 +120,33 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("Oliver", "film item click");
-        final Film selected = (Film) this.mGridView.getItemAtPosition(position);
-        boolean isTablet = getActivity().findViewById(R.id.fragment2) != null;
-        if (isTablet) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("film", selected);
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment, new FilmDetailFragment());
-            fragmentTransaction.commit();
-        } else {
-            Intent intent = new Intent(getActivity(), FilmDetailActivity.class);
-            intent.putExtra("film", selected);
-            startActivity(intent);
+        // Notify the active callbacks interface (the activity, if the
+        // fragment is attached to one) that an item has been selected.
+        mCallbacks.onItemSelected((Film) this.mGridView.getItemAtPosition(position));
+    }
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        /**
+         * Callback for when an item has been selected.
+         */
+        public void onItemSelected(Film film);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
+        mCallbacks = (Callbacks) activity;
     }
 
 }
