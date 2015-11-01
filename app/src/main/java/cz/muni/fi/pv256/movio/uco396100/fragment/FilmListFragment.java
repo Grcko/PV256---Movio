@@ -2,7 +2,6 @@ package cz.muni.fi.pv256.movio.uco396100.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListFragment;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,11 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -31,43 +31,76 @@ import cz.muni.fi.pv256.movio.uco396100.model.Film;
  */
 public class FilmListFragment extends Fragment implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
-    private static final List<Film> sFILMS;
+    private static final List<Film> sFILMS_FIRST;
+    private static final List<Film> sFILMS_SECOND;
 
     static {
-        sFILMS = new ArrayList<>();
-        sFILMS.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
-        sFILMS.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
-        sFILMS.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
-        sFILMS.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
-        sFILMS.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
-        sFILMS.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
-        sFILMS.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
-        sFILMS.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
-        sFILMS.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
-        sFILMS.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
-        sFILMS.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
-        sFILMS.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
-        sFILMS.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
-        sFILMS.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
-        sFILMS.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
-        sFILMS.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_FIRST = new ArrayList<>();
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_FIRST.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        
+        sFILMS_SECOND = new ArrayList<>();
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://i.kinja-img.com/gawker-media/image/upload/s--ft1APKVa--/18a5kzrhxhqwvjpg.jpg", "Panda returns"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.lovethesepics.com/wp-content/uploads/2012/04/Giant-Panda-cubs-at-Wolong-China.jpg", "Seven pandas"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://img110.xooimage.com/files/b/4/8/c525b8cca91d4bd53...dc08d770-49b30e1.jpg", "Panda club"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://d65852kwq1u8u.cloudfront.net/uploads/753_panda_guns.jpg", "Panda shots"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.chinadaily.com.cn/china/images/attachement/jpg/site1/20090505/0013729e4abe0b69de5112.jpg", "Panda in the snow"));
+        sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
     }
 
-    private GridView mGridView;
+    private StickyGridHeadersGridView mGridView;
     private Callbacks mCallbacks;
 
     @Override
@@ -85,12 +118,12 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         final View fragmentView = inflater.inflate(
                 R.layout.fragment_film_list, container, false);
 
-        mGridView = (GridView) fragmentView.findViewById(R.id.gridview);
-        mGridView.setAdapter(new FilmAdapter(getActivity(), sFILMS));
+        mGridView = (StickyGridHeadersGridView) fragmentView.findViewById(R.id.gridview);
+        mGridView.setAdapter(new FilmAdapter(getActivity(), sFILMS_FIRST, sFILMS_SECOND));
         mGridView.setOnItemLongClickListener(this);
         mGridView.setOnItemClickListener(this);
 
-        if (sFILMS.isEmpty()) {
+        if (sFILMS_FIRST.isEmpty()) {
             ConnectivityManager cm =
                     (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -147,6 +180,14 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         }
 
         mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Reset the active callbacks interface to the null in order to destroy reference
+        mCallbacks = null;
     }
 
 }
