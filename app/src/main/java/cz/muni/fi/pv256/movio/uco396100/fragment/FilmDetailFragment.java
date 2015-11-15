@@ -45,13 +45,13 @@ public class FilmDetailFragment extends Fragment {
         final View fragmentView = inflater.inflate(
                 R.layout.fragment_film_detail, container, false);
         if (savedInstanceState != null) {
-            Film film = savedInstanceState.getParcelable("film");
-            Log.i("oliver", film.toString());
-            if (film != null) {
+            //Film film = savedInstanceState.getParcelable("film");
+            Log.i("oliver", mFilm.toString());
+            if (mFilm!= null) {
                 TextView title = (TextView) fragmentView.findViewById(R.id.title);
-                title.setText(film.getTitle());
+                title.setText(mFilm.getTitle());
                 ImageView cover = (ImageView) fragmentView.findViewById(R.id.cover);
-                Picasso.with(getActivity()).load(film.getCoverPath()).into(cover);
+                Picasso.with(getActivity()).load(mFilm.getCoverPath()).into(cover);
             }
         }
 

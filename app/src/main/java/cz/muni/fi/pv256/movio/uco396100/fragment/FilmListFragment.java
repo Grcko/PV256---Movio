@@ -13,12 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.Toast;
 
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -100,7 +98,7 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         sFILMS_SECOND.add(new Film(new Date().getTime(), "http://www.comicsplace.net/wp-content/uploads/2013/02/PANDA.jpg", "The walking panda"));
     }
 
-    private StickyGridHeadersGridView mGridView;
+    private GridView mGridView;
     private Callbacks mCallbacks;
 
     @Override
@@ -118,7 +116,7 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         final View fragmentView = inflater.inflate(
                 R.layout.fragment_film_list, container, false);
 
-        mGridView = (StickyGridHeadersGridView) fragmentView.findViewById(R.id.gridview);
+        mGridView = (GridView) fragmentView.findViewById(R.id.gridview);
         mGridView.setAdapter(new FilmAdapter(getActivity(), sFILMS_FIRST, sFILMS_SECOND));
         mGridView.setOnItemLongClickListener(this);
         mGridView.setOnItemClickListener(this);
@@ -167,7 +165,7 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(Film film);
+        void onItemSelected(Film film);
     }
 
     @Override
