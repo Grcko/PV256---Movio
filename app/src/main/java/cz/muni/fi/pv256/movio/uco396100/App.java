@@ -3,6 +3,7 @@ package cz.muni.fi.pv256.movio.uco396100;
 import android.app.Application;
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,6 +34,11 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             initStrictMode();
         }
+
+        if(BuildConfig.logging){
+            Log.i("oliver", "Logging approved");
+        }
+
         JodaTimeAndroid.init(this);
         initApiService();
 
