@@ -50,7 +50,7 @@ public class FilmAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return getItem(i).hashCode();
+        return ((Film)getItem(i)).geMovieDbId();
     }
 
     @Override

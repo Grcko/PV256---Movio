@@ -1,18 +1,15 @@
 package cz.muni.fi.pv256.movio.uco396100;
 
-import android.app.Application;
 import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.activeandroid.app.Application;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import org.joda.time.LocalDate;
-
-import cz.muni.fi.pv256.movio.uco396100.network.LocalDateTypeAdapter;
 import cz.muni.fi.pv256.movio.uco396100.network.TheMovieDBApiService;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
