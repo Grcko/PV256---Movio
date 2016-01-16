@@ -1,0 +1,9 @@
+<resources>
+    <string name="film_detail_activity_label">Detail filmu</string>
+
+    <string name="action_settings">Nastavenia</string>
+    <string name="no_data">Data nie su dostupne</string>
+    <string name="no_internet_connection">Internetove spojenie nedostupne</string>
+    <string name="openings_header">Novinky tyzdna</string>
+    <string name="theatres_header">Momentalne v kinach</string>
+</resources>
