@@ -25,6 +25,7 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
 
     private Film mFilm;
     private boolean mSaved;
+    FloatingActionButton mFab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,14 +59,20 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
             ImageView background = (ImageView) fragmentView.findViewById(R.id.backgroundImage);
             Picasso.with(getActivity()).load(mFilm.getBackgroundImagePath()).into(background);
 
-            FloatingActionButton fab = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
-            if (mSaved) {
-                fab.setBackgroundColor(getResources().getColor(R.color.indigo_accent));
-            }
-            fab.setOnClickListener(this);
+            mFab = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
+            mFab.setOnClickListener(this);
+            changeFabStyle();
         }
 
         return fragmentView;
+    }
+
+    private void changeFabStyle() {
+        if (mSaved) {
+            mFab.setImageResource(R.drawable.ic_remove_white_24dp);
+        } else {
+            mFab.setImageResource(R.drawable.ic_add_white_24dp);
+        }
     }
 
     @Override
@@ -73,15 +80,19 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
         if (mSaved) {
             Log.i("oliver", "deleting");
             mFilm.delete();
+            mSaved = false;
         } else {
             Log.i("oliver", "saving");
             mFilm.save();
+            mSaved = true;
         }
+        changeFabStyle();
     }
 
     private void determineSaved() {
         Film film = Film.getByMovieDbId(mFilm.geMovieDbId());
         if (film != null) {
+            mFilm = film;
             mSaved = true;
             Log.i("oliver", "saved");
         } else {

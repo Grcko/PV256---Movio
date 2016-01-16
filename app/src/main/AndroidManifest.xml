@@ -11,7 +11,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme2" >
+        android:theme="@style/app_theme" >
         <meta-data android:name="AA_DB_NAME" android:value="Movio.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="1" />
         <meta-data
@@ -33,13 +33,13 @@
             android:label="@string/film_detail_activity_label" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value="cz.muni.fi.pv256.movio.uco396100.activity.MainActivity" />
             <!-- nefunguje UP -->
         </activity>
 
         <service
             android:name=".service.FilmDataService"
-            android:exported="true"
+            android:exported="false"
             android:enabled="true" >
         </service>
 

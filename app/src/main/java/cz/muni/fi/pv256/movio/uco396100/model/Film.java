@@ -34,6 +34,7 @@ public class Film extends Model implements Parcelable {
     private static final String sBACKGROUND_IMAGE_PATH_PREFIX = "http://image.tmdb.org/t/p/w780/";
 
     @Column(name = "movie_db_id")
+    @SerializedName("id")
     private long mMovieDbId;
 
     @Column(name = "release_date")

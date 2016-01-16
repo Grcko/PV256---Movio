@@ -33,14 +33,15 @@ android {
     productFlavors {
         primary {
             resValue "string", "app_name", "Movio"
+            resValue "style", "app_theme", "@style/AppTheme2"
             buildConfigField "boolean", "logging", "false"
         }
 
         secondary {
             applicationId "cz.muni.fi.pv256.movio.uco396100.secondary"
             resValue "string", "app_name", "MovioSecondary"
+            resValue "style", "app_theme", "@style/AppTheme"
             buildConfigField "boolean", "logging", "true"
-         //   resValue "style", "app_theme", "@style/AppTheme" TODO
         }
     }
 
