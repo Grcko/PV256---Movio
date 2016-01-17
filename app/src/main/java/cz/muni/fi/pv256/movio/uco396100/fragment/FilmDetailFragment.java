@@ -1,9 +1,11 @@
 package cz.muni.fi.pv256.movio.uco396100.fragment;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,16 +79,21 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        String text;
         if (mSaved) {
             Log.i("oliver", "deleting");
             mFilm.delete();
             mSaved = false;
+            text = getString(R.string.snackbar_remmoved_film);
         } else {
             Log.i("oliver", "saving");
             mFilm.save();
             mSaved = true;
+            text = getString(R.string.snackbar_add_film);
         }
         changeFabStyle();
+        Snackbar.make(getActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG)
+                .show();
     }
 
     private void determineSaved() {

@@ -6,4 +6,6 @@
     <string name="no_internet_connection">Internetove spojenie nedostupne</string>
     <string name="openings_header">Novinky tyzdna</string>
     <string name="theatres_header">Momentalne v kinach</string>
+    <string name="snackbar_add_film">Film bol pridany do oblubenych</string>
+    <string name="snackbar_remmoved_film">Film bol odstraneny z oblubenych</string>
 </resources>

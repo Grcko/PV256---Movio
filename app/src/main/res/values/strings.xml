@@ -6,4 +6,6 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="openings_header">Opening This Week</string>
     <string name="theatres_header">In Theaters Now</string>
+    <string name="snackbar_add_film">Film added to favourites</string>
+    <string name="snackbar_remmoved_film">Film removed from favourites</string>
 </resources>
