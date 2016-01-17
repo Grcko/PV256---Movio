@@ -14,6 +14,8 @@
         android:theme="@style/app_theme" >
         <meta-data android:name="AA_DB_NAME" android:value="Movio.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_SERIALIZERS"
+            android:value="cz.muni.fi.pv256.movio.uco396100.model.serializer.LocalDateSerializer" />
         <meta-data
             android:name="AA_MODELS"
             android:value="cz.muni.fi.pv256.movio.uco396100.model.Film" />
@@ -38,7 +40,7 @@
         </activity>
 
         <service
-            android:name=".service.FilmDataService"
+            android:name=".service.FilmDownloadService"
             android:exported="false"
             android:enabled="true" >
         </service>

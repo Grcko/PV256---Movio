@@ -3,8 +3,11 @@ package cz.muni.fi.pv256.movio.uco396100.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
 import cz.muni.fi.pv256.movio.uco396100.fragment.FilmDetailFragment;
@@ -29,22 +32,9 @@ public class MainActivity extends AppCompatActivity implements FilmListFragment.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        SwitchCompat switcher = (SwitchCompat) menu.getItem(0).getActionView().findViewById(R.id.switcher);
+        ((FilmListFragment) getFragmentManager().findFragmentById(R.id.fragment)).setSwitcher(switcher);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -69,4 +59,5 @@ public class MainActivity extends AppCompatActivity implements FilmListFragment.
             startActivity(detailIntent);
         }
     }
+
 }

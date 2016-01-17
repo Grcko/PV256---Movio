@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -22,35 +21,26 @@ import cz.muni.fi.pv256.movio.uco396100.model.Film;
 public class FilmAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Film> mDataFirst;
-    private List<Film> mDataSecond;
+    private List<Film> mData;
 
-    public FilmAdapter(Context context, List<Film> dataFirst, List<Film> dataSecond) {
+    public FilmAdapter(Context context, List<Film> data) {
         mContext = context;
-        mDataFirst = dataFirst;
-        mDataSecond = dataSecond;
-    }
-
-    private boolean isInFirstSection(int position) {
-        return position < mDataFirst.size();
+        mData = data;
     }
 
     @Override
     public int getCount() {
-        return mDataFirst.size() + mDataSecond.size();
+        return mData.size();
     }
 
     @Override
     public Object getItem(int i) {
-        if (isInFirstSection(i)) {
-            return mDataFirst.get(i);
-        }
-        return mDataSecond.get(i - mDataFirst.size());
+        return mData.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return ((Film)getItem(i)).geMovieDbId();
+        return ((Film)getItem(i)).getMovieDbId();
     }
 
     @Override

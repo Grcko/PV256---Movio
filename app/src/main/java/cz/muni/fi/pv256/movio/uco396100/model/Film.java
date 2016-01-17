@@ -13,6 +13,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.LocalDate;
 
+import java.util.List;
+
 import cz.muni.fi.pv256.movio.uco396100.network.LocalDateTypeAdapter;
 
 /**
@@ -54,11 +56,19 @@ public class Film extends Model implements Parcelable {
     @SerializedName("backdrop_path")
     private String mBackgroundImagePath;
 
+    @Column(name = "original_title")
+    @SerializedName("original_title")
+    private String mOriginalTitle;
+
+    @Column(name = "overview")
+    @SerializedName("overview")
+    private String mOverview;
+
     public Film() {
     }
 
     public Film(Parcel in) {
-        String[] data = new String[5];
+        String[] data = new String[7];
 
         in.readStringArray(data);
         this.mMovieDbId = Long.parseLong(data[0]);
@@ -66,9 +76,11 @@ public class Film extends Model implements Parcelable {
         this.mCoverPath = data[2];
         this.mTitle = data[3];
         this.mBackgroundImagePath = data[4];
+        this.mOriginalTitle = data[5];
+        this.mOverview = data[6];
     }
 
-    public long geMovieDbId() {
+    public long getMovieDbId() {
         return mMovieDbId;
     }
 
@@ -108,13 +120,32 @@ public class Film extends Model implements Parcelable {
         this.mBackgroundImagePath = backgroundImagePath;
     }
 
+    public String getOriginalTitle() {
+        return mOriginalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.mOriginalTitle = originalTitle;
+    }
+
+    public String getOverview() {
+        return mOverview;
+    }
+
+    public void setOverview(String overview) {
+        this.mOverview = overview;
+    }
+
     @Override
     public String toString() {
         return "Film{" +
-                "mReleaseDate=" + mReleaseDate +
+                "mMovieDbId=" + mMovieDbId +
+                ", mReleaseDate=" + mReleaseDate +
                 ", mCoverPath='" + mCoverPath + '\'' +
                 ", mTitle='" + mTitle + '\'' +
                 ", mBackgroundImagePath='" + mBackgroundImagePath + '\'' +
+                ", mOriginalTitle='" + mOriginalTitle + '\'' +
+                ", mOverview='" + mOverview + '\'' +
                 '}';
     }
 
@@ -125,13 +156,21 @@ public class Film extends Model implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{String.valueOf(mMovieDbId), String.valueOf(this.mReleaseDate),
+        dest.writeStringArray(new String[]{
+                String.valueOf(mMovieDbId),
+                String.valueOf(this.mReleaseDate),
                 this.mCoverPath,
                 this.mTitle,
-                this.mBackgroundImagePath});
+                this.mBackgroundImagePath,
+                this.mOriginalTitle,
+                this.mOverview});
     }
 
     public static Film getByMovieDbId(long movieDbId) {
         return new Select().from(Film.class).where("movie_db_id = ?", movieDbId).executeSingle();
+    }
+
+    public static List<Film> getAll() {
+        return new Select().from(Film.class).execute();
     }
 }

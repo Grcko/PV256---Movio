@@ -1,7 +1,6 @@
 package cz.muni.fi.pv256.movio.uco396100.fragment;
 
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.util.Locale;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
@@ -52,14 +56,25 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
 
         if (mFilm != null) {
             determineSaved();
+
             TextView title = (TextView) fragmentView.findViewById(R.id.title);
             title.setText(mFilm.getTitle());
+
+            TextView originalTitle = (TextView) fragmentView.findViewById(R.id.originalTitle);
+            originalTitle.setText(mFilm.getOriginalTitle());
 
             ImageView cover = (ImageView) fragmentView.findViewById(R.id.cover);
             Picasso.with(getActivity()).load(mFilm.getCoverPath()).into(cover);
 
             ImageView background = (ImageView) fragmentView.findViewById(R.id.backgroundImage);
             Picasso.with(getActivity()).load(mFilm.getBackgroundImagePath()).into(background);
+
+            TextView releaseDate = (TextView) fragmentView.findViewById(R.id.releaseDate);
+            releaseDate.setText(mFilm.getReleaseDate().toString(DateTimeFormat.forStyle("M-")
+                    .withLocale(Locale.getDefault())));
+
+            TextView overview = (TextView) fragmentView.findViewById(R.id.overview);
+            overview.setText(mFilm.getOverview());
 
             mFab = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
             mFab.setOnClickListener(this);
@@ -97,7 +112,7 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
     }
 
     private void determineSaved() {
-        Film film = Film.getByMovieDbId(mFilm.geMovieDbId());
+        Film film = Film.getByMovieDbId(mFilm.getMovieDbId());
         if (film != null) {
             mFilm = film;
             mSaved = true;

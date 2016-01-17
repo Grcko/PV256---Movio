@@ -4,8 +4,9 @@
     <string name="action_settings">Nastavenia</string>
     <string name="no_data">Data nie su dostupne</string>
     <string name="no_internet_connection">Internetove spojenie nedostupne</string>
-    <string name="openings_header">Novinky tyzdna</string>
-    <string name="theatres_header">Momentalne v kinach</string>
+    <string name="label_section_discover">Nove</string>
+    <string name="label_section_favorites">Oblubene</string>
     <string name="snackbar_add_film">Film bol pridany do oblubenych</string>
     <string name="snackbar_remmoved_film">Film bol odstraneny z oblubenych</string>
+    <string name="label_overview">Overview</string>
 </resources>

@@ -22,7 +22,7 @@ import cz.muni.fi.pv256.movio.uco396100.network.TheMovieDBApiService;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class FilmDataService extends IntentService {
+public class FilmDownloadService extends IntentService {
     public static final int STATUS_RUNNING = 0;
     public static final int STATUS_FINISHED = 1;
     public static final int STATUS_ERROR = 2;
@@ -31,11 +31,11 @@ public class FilmDataService extends IntentService {
 
     private static final String TAG = "DownloadService";
 
-    public FilmDataService() {
-        this("FilmDataService");
+    public FilmDownloadService() {
+        this("FilmDownloadService");
     }
 
-    public FilmDataService(String name) {
+    public FilmDownloadService(String name) {
         super(name);
     }
 
