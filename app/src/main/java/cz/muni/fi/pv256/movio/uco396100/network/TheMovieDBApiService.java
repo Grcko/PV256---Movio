@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
 import cz.muni.fi.pv256.movio.uco396100.model.FilmResponse;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -21,9 +22,13 @@ public interface TheMovieDBApiService {
     public static final String PARAM_RELEASE_DATE_TO = "primary_release_date.lte";
 
 
-@GET("/discover/movie")
+    @GET("/discover/movie")
     FilmResponse getInTheatres(
-        @Query(PARAM_API_KEY) String apiKey,
-        @Query(PARAM_RELEASE_DATE_FROM) LocalDate from,
-        @Query(PARAM_RELEASE_DATE_TO) LocalDate to);
+            @Query(PARAM_API_KEY) String apiKey,
+            @Query(PARAM_RELEASE_DATE_FROM) LocalDate from,
+            @Query(PARAM_RELEASE_DATE_TO) LocalDate to);
+
+    @GET("/movie/{id}")
+    Film getFilm(@Query(PARAM_API_KEY) String apiKey, @Path("id") long id);
+
 }

@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,19 +27,22 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.muni.fi.pv256.movio.uco396100.activity.MainActivity;
 import cz.muni.fi.pv256.movio.uco396100.loader.AsyncTaskFilmLoader;
 import cz.muni.fi.pv256.movio.uco396100.R;
 import cz.muni.fi.pv256.movio.uco396100.adapter.FilmAdapter;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
 import cz.muni.fi.pv256.movio.uco396100.network.DownloadResultReceiver;
 import cz.muni.fi.pv256.movio.uco396100.service.FilmDownloadService;
+import cz.muni.fi.pv256.movio.uco396100.sync.UpdaterSyncAdapter;
 
 /**
  * Created by oliver on 24.10.2015.
  */
 public class FilmListFragment extends Fragment implements AdapterView.OnItemLongClickListener,
         AdapterView.OnItemClickListener, DownloadResultReceiver.Receiver,
-        CompoundButton.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<List<Film>> {
+        CompoundButton.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<List<Film>>,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private static List<Film> sDOWNLOADED_FILMS;
     private static List<Film> sSAVED_FILMS;
@@ -53,10 +57,16 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
     private static boolean mIsFavoritesChecked;
     private TextView mSectionLabel;
     private ViewStub viewStub;
+    private SwipeRefreshLayout mSwipeRefresh;
 
-    public void setSwitcher(SwitchCompat switcher) {
+    public void setSwitcherAndSwipeRefresh(SwitchCompat switcher, SwipeRefreshLayout swipeRefresh) {
         switcher.setChecked(mIsFavoritesChecked);
         switcher.setOnCheckedChangeListener(this);
+        mSwipeRefresh = swipeRefresh;
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setOnRefreshListener(this);
+            swipeRefresh.setEnabled(mIsFavoritesChecked);
+        }
     }
 
     @Override
@@ -163,8 +173,16 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         this.mIsFavoritesChecked = isChecked;
         if (mIsFavoritesChecked) {
             this.setSavedFilmsData();
+            if (!sSAVED_FILMS.isEmpty()) {
+                this.setSecondFragmentContent(sSAVED_FILMS.get(0));
+            }
         } else {
             this.setDownloadedFilmsData();
+        }
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setEnabled(mIsFavoritesChecked);
+        } else {
+            UpdaterSyncAdapter.syncImmediately(this.getActivity());
         }
     }
 
@@ -187,6 +205,13 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
     @Override
     public void onLoaderReset(Loader loader) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefresh.setRefreshing(true);
+        UpdaterSyncAdapter.syncImmediately(this.getActivity());
+        mSwipeRefresh.setRefreshing(false);
     }
 
     private void setDownloadedFilmsData() {
@@ -216,6 +241,8 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
                 intent.putExtra(FilmDownloadService.RECEIVER_KEY, mReceiver);
                 this.getActivity().startService(intent);
             }
+        } else {
+            setSecondFragmentContent(sDOWNLOADED_FILMS.get(0));
         }
     }
 
@@ -225,6 +252,18 @@ public class FilmListFragment extends Fragment implements AdapterView.OnItemLong
         if (sSAVED_FILMS.isEmpty()) {
             viewStub.setLayoutResource(R.layout.list_empty_layout);
             mGridView.setEmptyView(viewStub);
+        }
+    }
+
+    private void setSecondFragmentContent(Film film) {
+        if (((MainActivity)getActivity()).isTablet()) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(FilmDetailFragment.ARG_SELECTED_FILM, film);
+            FilmDetailFragment fragment = new FilmDetailFragment();
+            fragment.setArguments(arguments);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment2, fragment)
+                    .commit();
         }
     }
 

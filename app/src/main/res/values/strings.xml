@@ -9,4 +9,8 @@
     <string name="snackbar_add_film">Film added to favourites</string>
     <string name="snackbar_remmoved_film">Film removed from favourites</string>
     <string name="label_overview">Overview</string>
+    <string name="content_authority" translatable="false">cz.muni.fi.pv256.movio.uco396100</string>
+    <string name="sync_account_type" translatable="false">@string/content_authority</string>
+    <string name="updated">Your favorite \'%1$s\' was updated</string>
+
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,9 @@ import org.joda.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import cz.muni.fi.pv256.movio.uco396100.R;
+import cz.muni.fi.pv256.movio.uco396100.activity.MainActivity;
 import cz.muni.fi.pv256.movio.uco396100.model.Film;
+import cz.muni.fi.pv256.movio.uco396100.sync.UpdaterSyncAdapter;
 
 /**
  * Created by oliver on 24.10.2015.
@@ -109,6 +112,10 @@ public class FilmDetailFragment extends Fragment implements View.OnClickListener
         changeFabStyle();
         Snackbar.make(getActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG)
                 .show();
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity)getActivity()).onSavedFilmsChange();
+        }
     }
 
     private void determineSaved() {

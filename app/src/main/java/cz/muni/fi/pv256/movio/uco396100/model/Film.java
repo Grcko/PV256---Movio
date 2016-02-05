@@ -166,6 +166,41 @@ public class Film extends Model implements Parcelable {
                 this.mOverview});
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Film film = (Film) o;
+
+        if (mMovieDbId != film.mMovieDbId) return false;
+        if (mReleaseDate != null ? !mReleaseDate.equals(film.mReleaseDate) : film.mReleaseDate != null)
+            return false;
+        if (mCoverPath != null ? !mCoverPath.equals(film.mCoverPath) : film.mCoverPath != null)
+            return false;
+        if (mTitle != null ? !mTitle.equals(film.mTitle) : film.mTitle != null) return false;
+        if (mBackgroundImagePath != null ? !mBackgroundImagePath.equals(film.mBackgroundImagePath) : film.mBackgroundImagePath != null)
+            return false;
+        if (mOriginalTitle != null ? !mOriginalTitle.equals(film.mOriginalTitle) : film.mOriginalTitle != null)
+            return false;
+        return !(mOverview != null ? !mOverview.equals(film.mOverview) : film.mOverview != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (int) (mMovieDbId ^ (mMovieDbId >>> 32));
+        result = 31 * result + (mReleaseDate != null ? mReleaseDate.hashCode() : 0);
+        result = 31 * result + (mCoverPath != null ? mCoverPath.hashCode() : 0);
+        result = 31 * result + (mTitle != null ? mTitle.hashCode() : 0);
+        result = 31 * result + (mBackgroundImagePath != null ? mBackgroundImagePath.hashCode() : 0);
+        result = 31 * result + (mOriginalTitle != null ? mOriginalTitle.hashCode() : 0);
+        result = 31 * result + (mOverview != null ? mOverview.hashCode() : 0);
+        return result;
+    }
+
     public static Film getByMovieDbId(long movieDbId) {
         return new Select().from(Film.class).where("movie_db_id = ?", movieDbId).executeSingle();
     }
